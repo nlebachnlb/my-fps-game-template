@@ -75,7 +75,7 @@
                     "id": "84f5afaf-2d53-41f9-bf04-671a59f27d9a",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": true,

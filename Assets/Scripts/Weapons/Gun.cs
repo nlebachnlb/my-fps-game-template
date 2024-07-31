@@ -32,7 +32,9 @@ public class Gun : MonoBehaviour
     
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private ParticleSystem muzzleEffect;
+    [SerializeField] private Light muzzleLight;
     [SerializeField] private Transform muzzle;
+    [SerializeField] private float muzzleFlashDuration = 0.3f;
     [SerializeField] private List<AudioClip> shotSounds;
 
     private WeaponRecoil recoil;
@@ -60,6 +62,12 @@ public class Gun : MonoBehaviour
     public void ResetAttack()
     {
         isCoolingDown = true;
+    }
+
+    private void Update()
+    {
+        if (muzzleLight.intensity > 0f)
+            muzzleLight.intensity -= Time.deltaTime * (1f / muzzleFlashDuration);
     }
 
     public void UpdateAttack(float dt)
@@ -108,6 +116,7 @@ public class Gun : MonoBehaviour
         DispatchOnAmmoChange();
         recoil.RecoilFire();
         audioSource.PlayOneShot(shotSounds[Random.Range(0, shotSounds.Count)]);
+        muzzleLight.intensity = 1f;
     }
 
     public void Reload()

@@ -28,7 +28,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.0243, z: 0.389}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2587961454641309080}
   m_Father: {fileID: 8440185366127257757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4443816264803118493
@@ -111,7 +112,9 @@ MonoBehaviour:
   projectilePrefab: {fileID: 354691396875101414, guid: 36b017b0b057488449e7838a6a389171,
     type: 3}
   muzzleEffect: {fileID: 8217649951092367339}
+  muzzleLight: {fileID: 2424825002654170536}
   muzzle: {fileID: 4201685607436499501}
+  muzzleFlashDuration: 0.15
   shotSounds:
   - {fileID: 8300000, guid: b5e440453c085a24a834fc42bd181971, type: 3}
 --- !u!114 &5310867417993809323
@@ -29875,4 +29878,109 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400016, guid: 1dc2a27ad3a63d24bad7f1c6d159013e,
     type: 3}
   m_PrefabInstance: {fileID: 1606644074955377275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2334858059340742786
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4201685607436499501}
+    m_Modifications:
+    - target: {fileID: 126558696805858602, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Range
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 126558696805858602, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.3820755
+      objectReference: {fileID: 0}
+    - target: {fileID: 126558696805858602, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.7077795
+      objectReference: {fileID: 0}
+    - target: {fileID: 126558696805858602, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 126558696805858602, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Lightmapping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546947069077512068, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Name
+      value: MuzzleFlashLight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 55857ed741f5ece48978c665cd824f84, type: 3}
+--- !u!108 &2424825002654170536 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 126558696805858602, guid: 55857ed741f5ece48978c665cd824f84,
+    type: 3}
+  m_PrefabInstance: {fileID: 2334858059340742786}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2587961454641309080 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 255962132099294490, guid: 55857ed741f5ece48978c665cd824f84,
+    type: 3}
+  m_PrefabInstance: {fileID: 2334858059340742786}
   m_PrefabAsset: {fileID: 0}
