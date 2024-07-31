@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public enum ShootMode
 {
@@ -32,9 +33,11 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private ParticleSystem muzzleEffect;
     [SerializeField] private Transform muzzle;
+    [SerializeField] private List<AudioClip> shotSounds;
 
     private WeaponRecoil recoil;
     private Animator animator;
+    private AudioSource audioSource;
 
     private int numOfAmmo;
     private float fireTimer = 0f;
@@ -47,6 +50,7 @@ public class Gun : MonoBehaviour
     {
         recoil = GetComponent<WeaponRecoil>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         
         numOfAmmo = ammoMagazine;
         secondPerShot = 1f / fireRate;
@@ -56,7 +60,6 @@ public class Gun : MonoBehaviour
     public void ResetAttack()
     {
         isCoolingDown = true;
-        recoil.RecoilTime = 0f;
     }
 
     public void UpdateAttack(float dt)
@@ -81,6 +84,7 @@ public class Gun : MonoBehaviour
         {
             fireTimer = secondPerShot;
             isCoolingDown = false;
+            recoil.RecoilTime = 0f;
         }
     }
     
@@ -103,6 +107,7 @@ public class Gun : MonoBehaviour
         muzzleEffect.Play();
         DispatchOnAmmoChange();
         recoil.RecoilFire();
+        audioSource.PlayOneShot(shotSounds[Random.Range(0, shotSounds.Count)]);
     }
 
     public void Reload()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class WeaponRecoil : MonoBehaviour
@@ -23,7 +24,7 @@ public class WeaponRecoil : MonoBehaviour
     [SerializeField] private AnimationCurve recoilCurveY;
         
     [SerializeField] private float snappiness;
-    [SerializeField] private float returnSpeed;
+    [SerializeField] private float turnSpeed;
     
 
     private Vector3 currentRotation;
@@ -41,7 +42,7 @@ public class WeaponRecoil : MonoBehaviour
     private void Update()
     {
         targetRotation = Vector3.Lerp(targetRotation, Vector3.zero, snappiness * Time.deltaTime);
-        currentRotation = Vector3.Slerp(currentRotation, targetRotation, returnSpeed * Time.deltaTime);
+        currentRotation = Vector3.Slerp(currentRotation, targetRotation, turnSpeed * Time.deltaTime);
         camera.transform.localRotation = Quaternion.Euler(currentRotation);
     }
 
