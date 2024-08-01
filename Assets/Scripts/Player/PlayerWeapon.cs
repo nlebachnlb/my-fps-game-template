@@ -17,6 +17,14 @@ public class PlayerWeapon : MonoBehaviour
     private List<WeaponController> weapons = new();
     private WeaponController currentWeapon;
 
+    private Animator animator;
+    private bool isEquipping = false;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     private void Start()
     {
         foreach (var prefab in weaponPrefabs)
@@ -39,15 +47,10 @@ public class PlayerWeapon : MonoBehaviour
 
     public void SwitchWeapon(int index)
     {
-        if (index < 0 || index >= weapons.Count) return;
-        if (currentWeapon != null)
-            currentWeapon.Deactivate();
-        currentWeapon = weapons[index];
-        currentWeapon.gameObject.SetActive(true);
-        currentWeapon.Activate();
-        
-        textAmmo.text = "" + currentWeapon.GetWeaponAmmo();
-        textMagazine.text = "" + currentWeapon.GetWeaponMagazine();
+        if (index < 0 || index >= weapons.Count || isEquipping) return;
+        if (weapons[index] == currentWeapon) return;
+        if (currentWeapon && currentWeapon.IsReloading()) return;
+        StartCoroutine(SwitchWeaponProgress(index));
     }
 
     public void ProcessAttack(bool isAttacking, float dt)
@@ -61,5 +64,28 @@ public class PlayerWeapon : MonoBehaviour
         }
         
         currentWeapon.UpdateAttack(dt);
+    }
+
+    private IEnumerator SwitchWeaponProgress(int index)
+    {
+        isEquipping = true;
+        if (currentWeapon != null)
+        {
+            currentWeapon.Deactivate();
+            animator.SetTrigger("Unequip");
+            yield return new WaitForSeconds(0.2f);
+            currentWeapon.gameObject.SetActive(false);
+        }
+
+        animator.SetTrigger("Equip");
+        currentWeapon = weapons[index];
+        currentWeapon.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+        currentWeapon.Activate();
+        isEquipping = false;
+        
+        textAmmo.text = "" + currentWeapon.GetWeaponAmmo();
+        textMagazine.text = "" + currentWeapon.GetWeaponMagazine();
     }
 }

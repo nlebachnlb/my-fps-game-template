@@ -25,6 +25,9 @@ public class PlayerInputHandler : MonoBehaviour
 
         OnFoot.Jump.performed += ctx => movement.Jump();
         OnFoot.Reload.performed += ctx => attack.Reload();
+
+        OnFoot.PrimaryWeapon.performed += ctx => attack.SwitchWeapon(0);
+        OnFoot.SecondaryWeapon.performed += ctx => attack.SwitchWeapon(1);
     }
 
     private void Start()

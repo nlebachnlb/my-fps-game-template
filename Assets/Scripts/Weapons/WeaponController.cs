@@ -62,6 +62,11 @@ public class WeaponController : MonoBehaviour
         gun.Reload();
     }
 
+    public bool IsReloading()
+    {
+        return gun.IsReloading;
+    }
+
     public int GetWeaponMagazine()
     {
         return gun.ammoMagazine;

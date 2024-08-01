@@ -31,6 +31,7 @@ public class Gun : MonoBehaviour
     public int Ammo => numOfAmmo;
     public UnityAction<int> OnAmmoChange;
     public bool IsFullAmmo => !(Ammo < ammoMagazine);
+    public bool IsReloading => isReloading;
     
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private ParticleSystem muzzleEffect;
