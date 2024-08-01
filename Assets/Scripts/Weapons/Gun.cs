@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public enum ShootMode
 {
-    OneShot,
+    Manual,
     Automatic,
     Burst
 }
@@ -19,6 +19,8 @@ public class Gun : MonoBehaviour
     
     [Tooltip("How many time player fires per second")]
     public float fireRate;
+
+    public float manualCooldownTime = 0.1f;
     
     public int ammoMagazine = 10;
     public int projectilesPerShot = 1;
@@ -55,7 +57,7 @@ public class Gun : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         
         numOfAmmo = ammoMagazine;
-        secondPerShot = 1f / fireRate;
+        secondPerShot = shootMode == ShootMode.Automatic ? 1f / fireRate : manualCooldownTime;
         maxDistance = projectilePrefab.GetComponent<Projectile>().maxTraveledDistance;
     }
 
@@ -75,16 +77,27 @@ public class Gun : MonoBehaviour
         if (isCoolingDown || isReloading) return;
         
         fireTimer += dt;
-        recoil.RecoilTime += dt;
         if (fireTimer >= secondPerShot)
         {
             fireTimer = 0f;
             FireProjectile();
+            if (shootMode == ShootMode.Manual)
+                isCoolingDown = true;
         }
     }
 
     public void UpdateCoolDown(float dt)
     {
+        if (shootMode == ShootMode.Manual)
+        {
+            if (recoil.RecoilTime > 0f)
+            {
+                recoil.RecoilTime -= dt;
+                if (recoil.RecoilTime < 0f)
+                    recoil.RecoilTime = 0f;
+            }
+        }
+
         if (!isCoolingDown) return;
         
         fireTimer += dt;
@@ -92,11 +105,13 @@ public class Gun : MonoBehaviour
         {
             fireTimer = secondPerShot;
             isCoolingDown = false;
-            recoil.RecoilTime = 0f;
+            
+            if (shootMode == ShootMode.Automatic)
+                recoil.RecoilTime = 0f;
         }
     }
-    
-    public void FireProjectile()
+
+    private void FireProjectile()
     {
         if (numOfAmmo <= 0) return;
         numOfAmmo--;
@@ -117,6 +132,7 @@ public class Gun : MonoBehaviour
         recoil.RecoilFire();
         audioSource.PlayOneShot(shotSounds[Random.Range(0, shotSounds.Count)]);
         muzzleLight.intensity = 1f;
+        recoil.RecoilTime += secondPerShot;
     }
 
     public void Reload()

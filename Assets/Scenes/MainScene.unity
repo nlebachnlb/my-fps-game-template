@@ -26280,6 +26280,23 @@ PrefabInstance:
       propertyPath: textMagazine
       value: 
       objectReference: {fileID: 1257326435}
+    - target: {fileID: 6218275071074600330, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: weaponPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6218275071074600330, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: weaponPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4443816264803118493, guid: 3da477f588f4eb24590150eecb88cd8f,
+        type: 3}
+    - target: {fileID: 6218275071074600330, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: weaponPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4443816264803118493, guid: 4a0a957bd5b885245b1f25aa6ddfb4a0,
+        type: 3}
     - target: {fileID: 7773565749807236309, guid: 448e6dfc77df95e49a895554dead5f6d,
         type: 3}
       propertyPath: m_LocalPosition.x
