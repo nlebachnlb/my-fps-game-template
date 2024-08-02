@@ -145,7 +145,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 0.051709652
-      value: 0.15924764
+      value: 0.1380074
       inSlope: 0.051125247
       outSlope: 0.051125247
       tangentMode: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   recoilYAmplitude: 3
-  recoilZ: 0.15
+  recoilZ: 0.05
   recoilCurveY:
     serializedVersion: 2
     m_Curve:
@@ -190,7 +190,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  snappiness: 5
+  snappiness: 6
   turnSpeed: 30
 --- !u!95 &7641700727182442209
 Animator:
@@ -222,7 +222,8 @@ AudioSource:
   m_GameObject: {fileID: 4443816264803118493}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7828594200604668665, guid: a074a0131c3544348947c279454b4539,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

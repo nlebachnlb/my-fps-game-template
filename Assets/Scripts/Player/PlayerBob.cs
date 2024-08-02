@@ -8,6 +8,7 @@ public class PlayerBob : MonoBehaviour
     public float bobAmount;
     public float bobFrequency;
     public float bobSharpness;
+    public Action onStep;
     
     [SerializeField] private Transform weaponSocket;
 

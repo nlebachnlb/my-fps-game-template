@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,9 +20,16 @@ public class PlayerMovement : MonoBehaviour
     [Range(0f, 1f)] public float eyesHeightRatio = 0.75f;
     public float crouchSharpness = 10f;
     private float defaultHeight = 2f;
+
+
+    [Header("Footstep")] 
+    [SerializeField] private AudioClip sfxFootStepGround;
+    [SerializeField] private AudioClip sfxLand;
+    [SerializeField] private AudioClip sfxJump;
     
     public bool IsGrounded => controller.isGrounded;
     public Vector3 GroundedVelocity => new Vector3(velocity.x, 0, velocity.z);
+    public float CurrentSpeed => currentSpeed;
 
     [SerializeField] private Transform eyesCamera;
     
@@ -29,10 +37,15 @@ public class PlayerMovement : MonoBehaviour
     private float currentSpeed;
     private Vector3 velocity;
     private float targetHeight;
+    private PlayerBob bob;
+    private AudioSource audioSource;
+    private float footstepTimer = 0f;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        bob = GetComponent<PlayerBob>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -62,6 +75,15 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = -2f;
         
         controller.Move(velocity * dt);
+        
+        float movementFactor = Mathf.Clamp01(GroundedVelocity.magnitude / runSpeed * sprintMultiplier);
+        float walkCycle = 3f / currentSpeed;
+        footstepTimer += dt * movementFactor * (controller.isGrounded ? 1f : 0f);
+        if (footstepTimer > walkCycle)
+        {
+            audioSource.PlayOneShot(sfxFootStepGround);
+            footstepTimer = 0f;
+        }
     }
 
     public void Jump()
@@ -70,6 +92,8 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity = new Vector3(velocity.x, 0, velocity.z);
             velocity += Vector3.up * jumpHeight;
+            audioSource.PlayOneShot(sfxJump);
+            footstepTimer = 0f;
         }
     }
     
