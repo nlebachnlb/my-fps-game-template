@@ -19,6 +19,8 @@ public class WeaponRecoil : MonoBehaviour
     [Tooltip("The horizontal recoil angle will randomly around the base value with an amplitude defined")]
     [Range(0, 60)]
     [SerializeField] private float recoilYAmplitude;
+
+    [SerializeField] private float recoilZ;
     
     [Tooltip("Increment rate of horizontal recoil angle to maximum value follows this curve")]
     [SerializeField] private AnimationCurve recoilCurveY;
@@ -52,7 +54,7 @@ public class WeaponRecoil : MonoBehaviour
         
         float recoilValueX = -1f * recoilCurveX.Evaluate(RecoilTime) * maxRecoilXAngle;
         float recoilValueY = recoilCurveX.Evaluate(RecoilTime) * recoilYAmplitude;
-        targetRotation += new Vector3(recoilValueX, Random.Range(-recoilValueY, recoilValueY), 0);
+        targetRotation += new Vector3(recoilValueX, Random.Range(-recoilValueY, recoilValueY), Random.Range(-recoilZ, recoilZ));
         targetRotation.x = Mathf.Clamp(targetRotation.x, -1f * maxRecoilXAngle, 0);
     }
 }

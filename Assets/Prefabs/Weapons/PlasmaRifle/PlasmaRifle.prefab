@@ -102,6 +102,7 @@ MonoBehaviour:
   shootMode: 1
   projectileSpeed: 0
   fireRate: 10
+  manualCooldownTime: 0.1
   ammoMagazine: 30
   projectilesPerShot: 1
   reloadDuration: 1
@@ -129,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8650c7f8c77210459ee8809e252bba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRecoilXAngle: 10
+  maxRecoilXAngle: 9
   recoilCurveX:
     serializedVersion: 2
     m_Curve:
@@ -164,6 +165,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   recoilYAmplitude: 3
+  recoilZ: 0.15
   recoilCurveY:
     serializedVersion: 2
     m_Curve:
