@@ -67,7 +67,7 @@ public class PlayerInputHandler : MonoBehaviour
         // Call to PlayerMovement component and pass the input value
         movement.ProcessMovement(
             moveInput, 
-            OnFoot.Sprint.IsPressed(),
+            OnFoot.Sprint.IsPressed() && moveInput.magnitude > 0f,
             Time.deltaTime);
         
         movement.ProcessHeight(OnFoot.Crouch.IsPressed(), Time.deltaTime);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ public class PlayerWeapon : MonoBehaviour
 {
     public List<GameObject> weaponPrefabs = new();
     public Transform aimPoint;
+    
+    public bool IsAttacking { get; private set; }
 
     [SerializeField] private Transform playerWeaponSocket;
     [SerializeField] private TextMeshProUGUI textAmmo;
@@ -28,6 +31,9 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Start()
     {
+        foreach (var child in GetComponentsInChildren<WeaponController>())
+            Destroy(child.gameObject);
+        
         foreach (var prefab in weaponPrefabs)
         {
             var obj = Instantiate(prefab, playerWeaponSocket);
@@ -39,11 +45,17 @@ public class PlayerWeapon : MonoBehaviour
         }
         
         SwitchWeapon(0);
+        IsAttacking = false;
     }
 
     public void Reload()
     {
         currentWeapon.Reload();
+    }
+
+    public bool IsSprintTerminated()
+    {
+        return IsAttacking || currentWeapon.IsReloading();
     }
 
     public void SwitchWeapon(int index)
@@ -66,7 +78,9 @@ public class PlayerWeapon : MonoBehaviour
 
     public void ProcessAttack(bool isAttacking, float dt)
     {
+        IsAttacking = false;
         if (!currentWeapon) return;
+        IsAttacking = isAttacking;
         if (!isAttacking)
         {
             currentWeapon.ResetAttack();

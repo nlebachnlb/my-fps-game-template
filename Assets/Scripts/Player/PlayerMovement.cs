@@ -30,22 +30,29 @@ public class PlayerMovement : MonoBehaviour
     public bool IsGrounded => controller.isGrounded;
     public Vector3 GroundedVelocity => new Vector3(velocity.x, 0, velocity.z);
     public float CurrentSpeed => currentSpeed;
+    public float TargetSpeed => targetSpeed;
 
     [SerializeField] private Transform eyesCamera;
     
     private CharacterController controller;
     private float currentSpeed;
+    private float targetSpeed;
     private Vector3 velocity;
     private float targetHeight;
     private PlayerBob bob;
     private AudioSource audioSource;
     private float footstepTimer = 0f;
+    private Animator animator;
+    private bool sprint = false;
+    private PlayerWeapon playerWeapon;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
         bob = GetComponent<PlayerBob>();
         audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
+        playerWeapon = GetComponent<PlayerWeapon>();
     }
 
     private void Start()
@@ -56,11 +63,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void ProcessMovement(Vector2 inputAxis, bool isSprinting, float dt)
     {
+        sprint = isSprinting && !playerWeapon.IsSprintTerminated();
+
         float targetRatio = targetHeight < defaultHeight ? crouchSpeedRatio : 1f;
-        if (Mathf.Approximately(targetRatio, 1f) && isSprinting)
+        if (Mathf.Approximately(targetRatio, 1f) && sprint)
             targetRatio *= sprintMultiplier;
         
-        float targetSpeed = runSpeed * targetRatio;
+        targetSpeed = runSpeed * targetRatio;
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, dt * speedAcceleration);
         
         // Calculate movement
@@ -84,6 +93,8 @@ public class PlayerMovement : MonoBehaviour
             audioSource.PlayOneShot(sfxFootStepGround);
             footstepTimer = 0f;
         }
+
+        animator.SetBool("IsSprinting", sprint);
     }
 
     public void Jump()

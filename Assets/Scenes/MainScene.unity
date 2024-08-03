@@ -12590,15 +12590,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1726753275}
     m_Modifications:
-    - target: {fileID: 2277146999172402619, guid: 448e6dfc77df95e49a895554dead5f6d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2277509368374066484, guid: 448e6dfc77df95e49a895554dead5f6d,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3382442170089092282, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672160444197320842, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: bobAmount
+      value: 0.035
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672160444197320842, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: bobFrequency
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672160444197320842, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: bobSharpness
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6218275071074600330, guid: 448e6dfc77df95e49a895554dead5f6d,
         type: 3}

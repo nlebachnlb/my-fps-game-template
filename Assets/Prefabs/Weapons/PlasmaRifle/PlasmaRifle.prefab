@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 8126454194032961811}
   - component: {fileID: 8248179801413915263}
   - component: {fileID: 8217729770153404847}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5221,7 +5221,7 @@ GameObject:
   - component: {fileID: 8131475630397887855}
   - component: {fileID: 8217649951092367339}
   - component: {fileID: 8217914463032498559}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: VFX_M4 Muzzle Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10126,7 +10126,7 @@ GameObject:
   - component: {fileID: 8126490053293174357}
   - component: {fileID: 8248126076026998077}
   - component: {fileID: 8217666511695430349}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleBase (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15026,7 +15026,7 @@ GameObject:
   - component: {fileID: 8126202174541682879}
   - component: {fileID: 8216862728922156809}
   - component: {fileID: 8217706967039650145}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19926,7 +19926,7 @@ GameObject:
   - component: {fileID: 8131315930913875257}
   - component: {fileID: 8248187177513747323}
   - component: {fileID: 8217803878210395093}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24826,7 +24826,7 @@ GameObject:
   - component: {fileID: 8126268035136929997}
   - component: {fileID: 8248192543011769363}
   - component: {fileID: 8218295369100543559}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29969,6 +29969,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MuzzleFlashLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546947069077512068, guid: 55857ed741f5ece48978c665cd824f84,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

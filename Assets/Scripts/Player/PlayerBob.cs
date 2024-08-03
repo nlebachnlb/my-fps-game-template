@@ -43,9 +43,10 @@ public class PlayerBob : MonoBehaviour
         }
 
         weaponBobFactor = Mathf.Lerp(weaponBobFactor, movementFactor, bobSharpness * dt);
-        float hBobValue = Mathf.Sin(Time.time * bobFrequency) * bobAmount * weaponBobFactor;
-        float vBobValue = ((Mathf.Sin(Time.time * bobFrequency * 2f) * 0.5f) + 0.5f) * bobAmount * weaponBobFactor;
-        weaponBobLocalPosition.x = hBobValue;
-        weaponBobLocalPosition.y = Mathf.Abs(vBobValue);
+        float frequency = movement.TargetSpeed;
+        float hBobValue = Mathf.Sin(Time.time * frequency) * bobAmount * weaponBobFactor;
+        float vBobValue = ((Mathf.Sin(Time.time * frequency * 2f) * 0.5f) + 0.5f) * bobAmount * weaponBobFactor;
+        weaponBobLocalPosition.x = Mathf.Lerp(weaponBobLocalPosition.x, hBobValue, bobSharpness * dt);
+        weaponBobLocalPosition.y = Mathf.Lerp(weaponBobLocalPosition.y, Mathf.Abs(vBobValue), bobSharpness * dt);
     }
 }
