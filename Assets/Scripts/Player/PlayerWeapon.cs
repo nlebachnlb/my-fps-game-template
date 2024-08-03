@@ -19,6 +19,7 @@ public class PlayerWeapon : MonoBehaviour
 
     private Animator animator;
     private bool isEquipping = false;
+    private int currentIndex = 0;
 
     private void Awake()
     {
@@ -50,7 +51,17 @@ public class PlayerWeapon : MonoBehaviour
         if (index < 0 || index >= weapons.Count || isEquipping) return;
         if (weapons[index] == currentWeapon) return;
         if (currentWeapon && currentWeapon.IsReloading()) return;
-        StartCoroutine(SwitchWeaponProgress(index));
+        
+        isEquipping = true;
+        currentIndex = index;
+        if (currentWeapon == null)
+        {
+            OnUnequipped();
+            return;
+        }
+
+        currentWeapon.Deactivate();
+        animator.SetTrigger("Unequip");
     }
 
     public void ProcessAttack(bool isAttacking, float dt)
@@ -66,22 +77,18 @@ public class PlayerWeapon : MonoBehaviour
         currentWeapon.UpdateAttack(dt);
     }
 
-    private IEnumerator SwitchWeaponProgress(int index)
+    public void OnUnequipped()
     {
-        isEquipping = true;
-        if (currentWeapon != null)
-        {
-            currentWeapon.Deactivate();
-            animator.SetTrigger("Unequip");
-            yield return new WaitForSeconds(0.2f);
+        if (currentWeapon)
             currentWeapon.gameObject.SetActive(false);
-        }
-
+        
         animator.SetTrigger("Equip");
-        currentWeapon = weapons[index];
+        currentWeapon = weapons[currentIndex];
         currentWeapon.gameObject.SetActive(true);
+    }
 
-        yield return new WaitForSeconds(0.2f);
+    public void OnEquipped()
+    {
         currentWeapon.Activate();
         isEquipping = false;
         

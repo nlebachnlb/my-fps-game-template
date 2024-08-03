@@ -78,8 +78,8 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.035
-  m_PreviewTimeScale: 0.1
+  m_Time: 0.05
+  m_PreviewTimeScale: 0
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.065
@@ -87,17 +87,17 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2.738613
-        outSlope: 2.738613
+        time: 0.0024509802
+        value: 0.90760875
+        inSlope: 1.400458
+        outSlope: 1.400458
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.44685328
-        outWeight: 0.05159705
+        outWeight: 0.18627451
       - serializedVersion: 3
-        time: 1
-        value: 1
+        time: 0.9779358
+        value: 0.14131165
         inSlope: 0.21757962
         outSlope: 0.21757962
         tangentMode: 0
@@ -109,8 +109,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.7180627, b: 0, a: 1}
-      key1: {r: 1, g: 0.7202715, b: 0, a: 0}
+      key0: {r: 1, g: 0.51373154, b: 0, a: 1}
+      key1: {r: 1, g: 0, b: 0, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -126,7 +126,7 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 56090
+      atime1: 53777
       atime2: 0
       atime3: 0
       atime4: 0
@@ -141,14 +141,14 @@ TrailRenderer:
     numCapVertices: 4
     alignment: 0
     textureMode: 0
-    textureScale: {x: 1, y: 0.7}
+    textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.05
   m_MaskInteraction: 0
   m_Autodestruct: 0
   m_Emitting: 1
-  m_ApplyActiveColorSpace: 1
+  m_ApplyActiveColorSpace: 0
 --- !u!65 &6077258253966625375
 BoxCollider:
   m_ObjectHideFlags: 0
