@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6077258253966625375}
   - component: {fileID: 8852329460411759173}
   - component: {fileID: 8437743647235589116}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: PlasmaProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 5600634177323047596}
   - component: {fileID: 4122411070809792934}
   - component: {fileID: 1558161038492716004}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: R_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

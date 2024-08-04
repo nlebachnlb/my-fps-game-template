@@ -2,10 +2,13 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("General")] [Tooltip("Force applied downward when in the air")]
+    [Header("General")] 
+    [Tooltip("Force applied downward when in the air")]
     public float gravity = 20f;
     
     [Header("Movement")]
@@ -13,13 +16,14 @@ public class PlayerMovement : MonoBehaviour
     public float sprintMultiplier;
     public float jumpHeight;
     public float speedAcceleration = 10f;
+    [SerializeField] private float groundCheckDistance = 1f;
+    [SerializeField] private LayerMask groundCheckLayers;
 
     [Header("Crouch")] 
     [Range(0.1f, 1f)] public float crouchHeightRatio = 0.5f;
     [Range(0f, 1f)] public float crouchSpeedRatio = 0.75f;
     [Range(0f, 1f)] public float eyesHeightRatio = 0.75f;
     public float crouchSharpness = 10f;
-    private float defaultHeight = 2f;
 
 
     [Header("Footstep")] 
@@ -27,84 +31,105 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip sfxLand;
     [SerializeField] private AudioClip sfxJump;
     
-    public bool IsGrounded => controller.isGrounded;
-    public Vector3 GroundedVelocity => new Vector3(velocity.x, 0, velocity.z);
-    public float CurrentSpeed => currentSpeed;
-    public float TargetSpeed => targetSpeed;
-
+    [Header("Camera")]
     [SerializeField] private Transform eyesCamera;
+
+    public UnityEvent OnLandedEvent;
     
-    private CharacterController controller;
-    private float currentSpeed;
-    private float targetSpeed;
-    private Vector3 velocity;
-    private float targetHeight;
-    private PlayerBob bob;
-    private AudioSource audioSource;
-    private float footstepTimer = 0f;
-    private Animator animator;
-    private bool sprint = false;
-    private PlayerWeapon playerWeapon;
+    public bool IsGrounded { get; private set; } = true;
+
+    public Vector3 GroundedVelocity => new(_velocity.x, 0, _velocity.z);
+    public float CurrentSpeed { get; private set; }
+    public float TargetSpeed { get; private set; }
+    
+    private CharacterController _controller;
+    private PlayerWeapon _playerWeapon;
+    private AudioSource _audioSource;
+    private Animator _animator;
+    private Vector3 _velocity;
+    private float _targetHeight;
+    private float _footstepTimer = 0f;
+    private bool _sprint = false;
+    private float _lastJumpTime;
+    private float _sprintBlend;
+
+    // Prevent snapping player on the ground after pressing jump, just snap on the falling phase
+    private const float k_jumpFallSnapPreventionTime = 0.2f;
+    private const float k_groundCheckDistanceOnAir = 0.1f;
+    private const float k_defaultHeight = 2f;
 
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
-        bob = GetComponent<PlayerBob>();
-        audioSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
-        playerWeapon = GetComponent<PlayerWeapon>();
+        _controller = GetComponent<CharacterController>();
+        _audioSource = GetComponent<AudioSource>();
+        _animator = GetComponent<Animator>();
+        _playerWeapon = GetComponent<PlayerWeapon>();
     }
 
     private void Start()
     {
-        currentSpeed = runSpeed;
-        velocity = Vector3.zero;
+        CurrentSpeed = runSpeed;
+        _velocity = Vector3.zero;
     }
-
+    
     public void ProcessMovement(Vector2 inputAxis, bool isSprinting, float dt)
     {
-        sprint = isSprinting && !playerWeapon.IsSprintTerminated();
+        bool wasGrounded = IsGrounded;
+        GroundCheck();
+        
+        _sprint = isSprinting && !_playerWeapon.IsSprintTerminated();
 
-        float targetRatio = targetHeight < defaultHeight ? crouchSpeedRatio : 1f;
-        if (Mathf.Approximately(targetRatio, 1f) && sprint)
+        float targetRatio = _targetHeight < k_defaultHeight ? crouchSpeedRatio : 1f;
+        if (Mathf.Approximately(targetRatio, 1f) && _sprint)
             targetRatio *= sprintMultiplier;
         
-        targetSpeed = runSpeed * targetRatio;
-        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, dt * speedAcceleration);
+        TargetSpeed = runSpeed * targetRatio;
+        CurrentSpeed = Mathf.MoveTowards(CurrentSpeed, TargetSpeed, dt * speedAcceleration);
         
         // Calculate movement
         Vector3 motion = new Vector3(inputAxis.x, 0, inputAxis.y);
-        motion = transform.TransformDirection(motion) * currentSpeed;
-        velocity.x = motion.x;
-        velocity.z = motion.z;
+        motion = transform.TransformDirection(motion) * CurrentSpeed;
+        _velocity.x = motion.x;
+        _velocity.z = motion.z;
         
         // Calculate gravity
-        velocity.y -= gravity * dt;
-        if (controller.isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        _velocity.y -= gravity * dt;
+        if (IsGrounded && _velocity.y < 0)
+            _velocity.y = -2f;
         
-        controller.Move(velocity * dt);
+        _controller.Move(_velocity * dt);
         
         float movementFactor = Mathf.Clamp01(GroundedVelocity.magnitude / runSpeed * sprintMultiplier);
-        float walkCycle = 3f / currentSpeed;
-        footstepTimer += dt * movementFactor * (controller.isGrounded ? 1f : 0f);
-        if (footstepTimer > walkCycle)
+        float walkCycle = 3f / CurrentSpeed;
+        _footstepTimer += dt * movementFactor * (IsGrounded ? 1f : 0f);
+        if (_footstepTimer > walkCycle)
         {
-            audioSource.PlayOneShot(sfxFootStepGround);
-            footstepTimer = 0f;
+            _audioSource.PlayOneShot(sfxFootStepGround);
+            _footstepTimer = 0f;
         }
 
-        animator.SetBool("IsSprinting", sprint);
+        float sprintValue = Mathf.Max(CurrentSpeed - runSpeed, 0f) / (runSpeed * sprintMultiplier - runSpeed);
+        if (!_sprint) sprintValue = 0f;
+        
+        _sprintBlend = Mathf.Lerp(_sprintBlend, sprintValue, dt * speedAcceleration);
+        _animator.SetFloat("Sprint", _sprintBlend);
+
+        if (!wasGrounded && IsGrounded)
+        {
+            OnLanded();
+        }
     }
 
     public void Jump()
     {
-        if (controller.isGrounded)
+        if (IsGrounded)
         {
-            velocity = new Vector3(velocity.x, 0, velocity.z);
-            velocity += Vector3.up * jumpHeight;
-            audioSource.PlayOneShot(sfxJump);
-            footstepTimer = 0f;
+            _velocity = new Vector3(_velocity.x, 0, _velocity.z);
+            _velocity += Vector3.up * jumpHeight;
+            _audioSource.PlayOneShot(sfxJump);
+            _footstepTimer = 0f;
+            IsGrounded = false;
+            _lastJumpTime = Time.time;
         }
     }
     
@@ -119,14 +144,14 @@ public class PlayerMovement : MonoBehaviour
         {
             Collider[] standingOverlaps = Physics.OverlapCapsule(
                 GetCapsuleBottomHemisphere(),
-                GetCapsuleTopHemisphere(defaultHeight),
-                controller.radius,
+                GetCapsuleTopHemisphere(k_defaultHeight),
+                _controller.radius,
                 -1,
                 QueryTriggerInteraction.Ignore);
             
             foreach (Collider c in standingOverlaps)
             {
-                if (c != controller)
+                if (c != _controller)
                 {
                     targetRatio = crouchHeightRatio;
                     break;
@@ -134,20 +159,55 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        targetHeight = targetRatio * defaultHeight;
-        controller.height = Mathf.Lerp(controller.height, targetHeight, dt * crouchSharpness);
-        controller.center = Vector3.up * (controller.height * 0.5f);
-        eyesCamera.localPosition = Vector3.up * (controller.height * eyesHeightRatio);
+        _targetHeight = targetRatio * k_defaultHeight;
+        _controller.height = Mathf.Lerp(_controller.height, _targetHeight, dt * crouchSharpness);
+        _controller.center = Vector3.up * (_controller.height * 0.5f);
+        eyesCamera.localPosition = Vector3.up * (_controller.height * eyesHeightRatio);
+    }
+
+    private void OnLanded()
+    {
+        _audioSource.PlayOneShot(sfxLand);
+        _animator.SetTrigger("Land");
+        OnLandedEvent?.Invoke();
+    }
+
+    private void GroundCheck()
+    {
+        float checkDistance = IsGrounded ? (_controller.skinWidth + groundCheckDistance) : k_groundCheckDistanceOnAir;
+        IsGrounded = false;
+
+        Debug.DrawRay(GetCapsuleBottomHemisphere(), Vector3.down);
+
+        if (Time.time <= _lastJumpTime + k_jumpFallSnapPreventionTime) return;
+        
+        if (Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(_controller.height),
+                _controller.radius, Vector3.down, out RaycastHit hit, checkDistance, groundCheckLayers,
+                QueryTriggerInteraction.Ignore))
+        {
+            // Debug.Log("Up and normal:" + Vector3.Angle(transform.up, hit.normal));
+            // Debug.Log("Dot:" + Vector3.Dot(hit.normal, transform.up));
+            if (Vector3.Dot(hit.normal, transform.up) > 0f &&
+                Vector3.Angle(transform.up, hit.normal) <= _controller.slopeLimit)
+            {
+                IsGrounded = true;
+
+                if (hit.distance > _controller.skinWidth)
+                {
+                    _controller.Move(Vector3.down * hit.distance);
+                }
+            }
+        }
     }
     
     // Gets the center point of the bottom hemisphere of the character controller capsule    
     private Vector3 GetCapsuleBottomHemisphere()
     {
-        return transform.position + (transform.up * controller.radius);
+        return transform.position + (transform.up * _controller.radius);
     }
     
     private Vector3 GetCapsuleTopHemisphere(float height)
     {
-        return transform.position + (transform.up * (height - controller.radius));
+        return transform.position + (transform.up * (height - _controller.radius));
     }
 }
