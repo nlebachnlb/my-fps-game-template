@@ -130,13 +130,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8650c7f8c77210459ee8809e252bba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRecoilXAngle: 9
+  maxRecoilXAngle: 10
   recoilCurveX:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.113220215
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -144,14 +144,14 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.051709652
-      value: 0.1380074
-      inSlope: 0.051125247
-      outSlope: 0.051125247
+      time: 0.08087301
+      value: 0.2559302
+      inSlope: 1.0636976
+      outSlope: 1.0636976
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.21789072
+      outWeight: 0.13867542
     - serializedVersion: 3
       time: 1
       value: 1
@@ -165,19 +165,19 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   recoilYAmplitude: 3
-  recoilZ: 0.05
+  recoilZ: 0.1
   recoilCurveY:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: 0.0041656494
+      value: 0.08255005
+      inSlope: 0.04815849
+      outSlope: 0.04815849
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.19665354
     - serializedVersion: 3
       time: 1
       value: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   snappiness: 6
-  turnSpeed: 30
+  turnSpeed: 25
 --- !u!95 &7641700727182442209
 Animator:
   serializedVersion: 5

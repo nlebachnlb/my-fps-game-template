@@ -3216,6 +3216,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3769259}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &387718047 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5301057969928522575, guid: 448e6dfc77df95e49a895554dead5f6d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5931926460822618003}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &388307292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16537,26 +16543,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3382442170089092282, guid: 448e6dfc77df95e49a895554dead5f6d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4672160444197320842, guid: 448e6dfc77df95e49a895554dead5f6d,
-        type: 3}
-      propertyPath: bobAmount
-      value: 0.035
-      objectReference: {fileID: 0}
-    - target: {fileID: 4672160444197320842, guid: 448e6dfc77df95e49a895554dead5f6d,
-        type: 3}
-      propertyPath: bobFrequency
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4672160444197320842, guid: 448e6dfc77df95e49a895554dead5f6d,
-        type: 3}
-      propertyPath: bobSharpness
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 6218275071074600330, guid: 448e6dfc77df95e49a895554dead5f6d,
         type: 3}
       propertyPath: textAmmo
@@ -16567,6 +16553,26 @@ PrefabInstance:
       propertyPath: textMagazine
       value: 
       objectReference: {fileID: 1257326435}
+    - target: {fileID: 6218275071074600330, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: playerWeaponSocket
+      value: 
+      objectReference: {fileID: 387718047}
+    - target: {fileID: 7307271767229618237, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: swayStep
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307271767229618237, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: swaySpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307271767229618237, guid: 448e6dfc77df95e49a895554dead5f6d,
+        type: 3}
+      propertyPath: weaponSwaySocket
+      value: 
+      objectReference: {fileID: 387718047}
     - target: {fileID: 7773565749807236309, guid: 448e6dfc77df95e49a895554dead5f6d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16616,11 +16622,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7906322441236573885, guid: 448e6dfc77df95e49a895554dead5f6d,
-        type: 3}
-      propertyPath: groundCheckLayers.m_Bits
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
