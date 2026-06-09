@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        rb.velocity = transform.forward * speed;
+        rb.linearVelocity = transform.forward * speed;
     }
 
     private void Update()
